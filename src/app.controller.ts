@@ -1,12 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('/counters')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getAllCounters() {
+    return this.appService.getAllCounters();
+  }
+
+  @Get('/:counter')
+  getOneCounter(@Param('counter') counterKey: string) {
+    return this.appService.getOneCounter(counterKey);
+  }
+
+  @Post()
+  createCounter(@Body() counter: Counter) {
+    return this.appService.createCounter(counter);
   }
 }

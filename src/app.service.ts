@@ -1,8 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  counters: Counter[] = [];
+
+  getAllCounters(): Array<{ [key: string]: number }> {
+    return this.counters;
+  }
+
+  getOneCounter(counterKey: string) {
+    const foundCounter = this.counters.find((counter) =>
+      counter.hasOwnProperty(counterKey),
+    );
+
+    if (foundCounter) {
+      return foundCounter;
+    } else {
+      throw new HttpException('Counter not found', 404);
+    }
+  }
+
+  createCounter(counter: Counter) {
+    this.counters.push(counter);
+    return this.counters;
   }
 }
