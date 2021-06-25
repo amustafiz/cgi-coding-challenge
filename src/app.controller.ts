@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller('/counters')
@@ -23,5 +23,10 @@ export class AppController {
   @Put('/:counter')
   incrementCounter(@Param('counter') counterKey: string) {
     return this.appService.incrementCounter(counterKey);
+  }
+
+  @Delete('/:counter')
+  decrementCounter(@Param('counter') counterKey: string){
+    return this.appService.decrementCounter(counterKey);
   }
 }
