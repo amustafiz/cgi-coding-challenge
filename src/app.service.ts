@@ -9,15 +9,13 @@ export class AppService {
   }
 
   getOneCounter(counterKey: string) {
-    const foundCounter = this.counters.find((counter) =>
-      counter.hasOwnProperty(counterKey),
-    );
+    const foundCounter = this.findCounter(counterKey);
 
-    if (foundCounter) {
-      return foundCounter;
-    } else {
+    if (!foundCounter) {
       throw new HttpException('Counter not found', 404);
     }
+
+    return foundCounter;
   }
 
   createCounter(counter: Counter) {
@@ -30,15 +28,18 @@ export class AppService {
   }
 
   incrementCounter(counterKey: string) {
-    const foundCounter = this.counters.find((counter) =>
-      counter.hasOwnProperty(counterKey),
-    );
+    const foundCounter = this.findCounter(counterKey);
 
-    if (foundCounter) {
-      foundCounter[counterKey]++;
-      return foundCounter;
-    } else {
+    if (!foundCounter) {
       throw new HttpException('Counter not found', 404);
     }
+
+    foundCounter[counterKey]++;
+
+    return foundCounter;
+  }
+
+  private findCounter(counterKey: string): Counter | undefined {
+    return this.counters.find((counter) => counter.hasOwnProperty(counterKey));
   }
 }
