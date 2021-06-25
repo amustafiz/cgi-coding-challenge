@@ -21,6 +21,10 @@ export class AppService {
   }
 
   createCounter(counter: Counter) {
+    for (const key in counter) {
+      counter[key] = +counter[key];
+    }
+
     this.counters.push(counter);
     return this.counters;
   }
