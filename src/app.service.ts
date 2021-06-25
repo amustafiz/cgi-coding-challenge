@@ -24,4 +24,17 @@ export class AppService {
     this.counters.push(counter);
     return this.counters;
   }
+
+  incrementCounter(counterKey: string) {
+    const foundCounter = this.counters.find((counter) =>
+      counter.hasOwnProperty(counterKey),
+    );
+
+    if (foundCounter) {
+      foundCounter[counterKey]++;
+      return foundCounter;
+    } else {
+      throw new HttpException('Counter not found', 404);
+    }
+  }
 }
