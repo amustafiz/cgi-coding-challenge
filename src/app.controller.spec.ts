@@ -52,4 +52,17 @@ describe('AppController', () => {
       );
     });
   });
+  describe('createCounter', () => {
+    it('should create a new counter in counters', () => {
+      const counter = getDummyCounter();
+      const oldCounterList = [...appService.counters];
+      const newCounterList = [
+        ...oldCounterList,
+        ...appService.createCounter(counter),
+      ];
+
+      expect(newCounterList.length).toEqual(oldCounterList.length + 1);
+      expect(newCounterList[newCounterList.length - 1]).toEqual(counter);
+    });
+  });
 });
