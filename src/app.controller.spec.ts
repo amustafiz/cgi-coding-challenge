@@ -99,6 +99,19 @@ describe('AppController', () => {
       expect(incrementedValue).toEqual(value - 1);
     });
 
+    it('should delete counter if value <= 0', () => {
+      const counter = { counter1: 1 };
+      appService.counters = [counter, getDummyCounter()];
+      appService.decrementCounter('counter1');
+
+      expect(appService.counters.length).toEqual(1);
+      expect(
+        appService.counters.find((counter) =>
+          counter.hasOwnProperty('counter1'),
+        ),
+      ).toBeFalsy();
+    });
+
     it('should fail if passed value for counter does not exist in counters list', () => {
       appService.counters = [getDummyCounter()];
 
