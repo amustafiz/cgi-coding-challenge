@@ -22,17 +22,34 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe.only('getAllCounters', () => {
+  describe('getAllCounters', () => {
     it('should return an empty array if no counters are set', () => {
       expect(appController.getAllCounters()).toEqual([]);
     });
 
     it('should return an array of counters', () => {
       const counters = [getDummyCounter(), getDummyCounter()];
-
       appService.counters = counters;
 
       expect(appController.getAllCounters()).toBe(counters);
+    });
+  });
+
+  describe('getOneCounter', () => {
+    it('should return a counter having the same key as argument', () => {
+      const counter = getDummyCounter();
+      const key = Object.keys(counter)[0];
+      appService.counters = [counter, getDummyCounter()];
+
+      expect(appController.getOneCounter(key)).toBe(counter);
+    });
+
+    it('should fail if there are no counters containing passed argument in memory', () => {
+      appService.counters = [getDummyCounter()];
+
+      expect(() => appController.getOneCounter('test')).toThrow(
+        'Counter not found',
+      );
     });
   });
 });
