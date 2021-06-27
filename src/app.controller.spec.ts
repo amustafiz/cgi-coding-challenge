@@ -65,4 +65,25 @@ describe('AppController', () => {
       expect(newCounterList[newCounterList.length - 1]).toEqual(counter);
     });
   });
+  describe('incrementCounter', () => {
+    it('should increment a selected counter value by 1', () => {
+      const counter = getDummyCounter();
+      const key = Object.keys(counter)[0];
+      const value = Object.values(counter)[0];
+      appService.counters = [counter, getDummyCounter()];
+      const incrementedValue = Object.values(
+        appService.incrementCounter(key),
+      )[0];
+
+      expect(incrementedValue).toEqual(value + 1);
+    });
+
+    it('should fail if passed value for counter does not exist in counters list', () => {
+      appService.counters = [getDummyCounter()];
+
+      expect(() => appController.getOneCounter('test')).toThrow(
+        'Counter not found',
+      );
+    });
+  });
 });
