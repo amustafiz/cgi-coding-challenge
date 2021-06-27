@@ -52,6 +52,7 @@ describe('AppController', () => {
       );
     });
   });
+
   describe('createCounter', () => {
     it('should create a new counter in counters', () => {
       const counter = getDummyCounter();
@@ -65,6 +66,7 @@ describe('AppController', () => {
       expect(newCounterList[newCounterList.length - 1]).toEqual(counter);
     });
   });
+
   describe('incrementCounter', () => {
     it('should increment a selected counter value by 1', () => {
       const counter = getDummyCounter();
@@ -86,24 +88,24 @@ describe('AppController', () => {
       );
     });
   });
+
   describe('decrementCounter', () => {
     it('should decrement a selected counter value by 1', () => {
       const counter = getDummyCounter();
       const key = Object.keys(counter)[0];
       const value = Object.values(counter)[0];
       appService.counters = [counter, getDummyCounter()];
-      const incrementedValue = Object.values(
+      const decrementedValue = Object.values(
         appService.decrementCounter(key),
       )[0];
-
-      expect(incrementedValue).toEqual(value - 1);
+      expect(decrementedValue).toEqual(value - 1);
     });
 
     it('should delete counter if value <= 0', () => {
       const counter = { counter1: 1 };
       appService.counters = [counter, getDummyCounter()];
-      appService.decrementCounter('counter1');
-
+      const returnValue = appService.decrementCounter('counter1');
+      expect(returnValue).toEqual('counter with counter1 was removed');
       expect(appService.counters.length).toEqual(1);
       expect(
         appService.counters.find((counter) =>
